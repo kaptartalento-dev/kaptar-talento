@@ -209,7 +209,6 @@ export default function KaptarTalento() {
             )}
           </div>
         )}
-
         {vista === "empresa" && (
           <div className="space-y-6">
             {!empresa ? (
@@ -221,7 +220,7 @@ export default function KaptarTalento() {
                 <button type="submit" className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl">Entrar al Buscador</button>
               </form>
             ) : (
-              <>
+              <div className="space-y-6">
                 <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
                   <div>
                     <h2 className="text-xl font-bold">{empresa.nombre_empresa}</h2>
@@ -232,6 +231,57 @@ export default function KaptarTalento() {
                     <a href={STRIPE_LINKS.pack5} className="px-4 py-2 bg-amber-500 text-slate-950 rounded-lg text-sm font-bold flex items-center gap-1"><CreditCard className="w-4 h-4" /> 5 Contactos (35€)</a>
                     <a href={STRIPE_LINKS.pack15} className="px-4 py-2 bg-slate-800 rounded-lg text-sm font-semibold flex items-center gap-1"><CreditCard className="w-4 h-4 text-amber-400" /> 15 Contactos (90€)</a>
                   </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-xl border flex flex-wrap gap-4 items-center">
+                  <Search className="w-5 h-5 text-slate-400" />
+                  <select className="border rounded-lg p-2 text-sm" value={filtroProv} onChange={(e) => setFiltroProv(e.target.value)}>
+                    <option value="Todas">Todas las provincias</option>
+                    {PROVINCIAS.map((p) => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                  <select className="border rounded-lg p-2 text-sm" value={filtroCarn} onChange={(e) => setFiltroCarn(e.target.value)}>
+                    <option value="Todos">Todos los carnets</option>
+                    {CARNETS.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                  <span className="text-sm text-slate-500 ml-auto">{filtrados.length} candidatos</span>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  {filtrados.map((c) => {
+                    const libre = desbloqueados.includes(c.id);
+                    return (
+                      <div key={c.id} className="bg-white p-6 rounded-xl border flex flex-col justify-between space-y-4">
+                        <div>
+                          <div className="flex justify-between">
+                            <span className="bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">{c.provincia} • {c.municipio}</span>
+                            <span className="text-xs text-slate-500">{c.experiencia} exp.</span>
+                          </div>
+                          <h3 className="text-lg font-bold mt-2">{c.puesto}</h3>
+                          <p className="text-xs text-emerald-700 mt-1">{c.disponibilidad}</p>
+                          <div className="flex flex-wrap gap-1.5 mt-3">
+                            {Array.isArray(c.carnets) && c.carnets.map((k) => (
+                              <span key={k} className="bg-slate-100 text-xs font-semibold px-2 py-1 rounded">{k}</span>
+                            ))}
+                          </div>
+                        </div>
+                        {libre ? (
+                          <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg space-y-1">
+                            <p className="text-sm font-bold text-emerald-950 flex items-center gap-1"><Unlock className="w-4 h-4 text-emerald-600" /> {c.nombre}</p>
+                            <p className="text-sm">Tel: <strong>{c.telefono}</strong> | {c.email}</p>
+                            <a href={`https://wa.me{c.telefono.replace(/\s+/g, "")}`} target="_blank" rel="noreferrer" className="inline-block mt-2 px-3 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg">WhatsApp directo</a>
+                          </div>
+                        ) : (
+                          <button onClick={() => desbloquear(c.id)} className="w-full py-2.5 bg-amber-500 font-bold rounded-lg text-sm flex items-center justify-center gap-2">
+                            <Lock className="w-4 h-4" /> Desbloquear Contacto (1 Crédito)
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </main>
       <footer className="bg-slate-900 text-slate-400 text-xs py-6 px-6 text-center mt-12">
@@ -240,7 +290,3 @@ export default function KaptarTalento() {
     </div>
   );
 }
-
-  );
-}
-
