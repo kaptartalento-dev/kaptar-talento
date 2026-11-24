@@ -14,8 +14,8 @@ const STRIPE_LINKS = {
   pack15: "https://stripe.com",
 };
 
-const CARNETS = ["Carnet B", "Carnet C", "Carnet C+E (Tráiler)", "Carnet D", "CAP en vigor", "ADR Mercancías Peligrosas", "Tarjeta Tacógrafo", "Carretillero"];
-const PROVINCIAS = ["Sevilla", "Cádiz", "Huelva", "Córdoba", "Málaga", "Granada", "Jaén", "Almería"];
+const CARNETS = ["Carnet B", "Carnet C", "Carnet C+E", "Carnet D", "CAP en vigor", "ADR", "Tacografo", "Carretillero"];
+const PROVINCIAS = ["Sevilla", "Cadiz", "Huelva", "Cordoba", "Malaga", "Granada", "Jaen", "Almeria"];
 
 export default function KaptarTalento() {
   const [vista, setVista] = useState("inicio");
@@ -26,8 +26,8 @@ export default function KaptarTalento() {
 
   const [formCand, setFormCand] = useState({
     nombre: "", telefono: "", email: "", provincia: "Sevilla", municipio: "",
-    puesto: "Conductor Tráiler C+E", experiencia: "3-5 años",
-    disponibilidad: "Incorporación inmediata", carnets: []
+    puesto: "Conductor Trailer C+E", experiencia: "3-5 anos",
+    disponibilidad: "Incorporacion inmediata", carnets: []
   });
 
   const [empresa, setEmpresa] = useState(null);
@@ -83,7 +83,7 @@ export default function KaptarTalento() {
 
   async function guardarCandidato(e) {
     e.preventDefault();
-    if (formCand.carnets.length === 0) return alert("Marca al menos un carnet o certificado.");
+    if (formCand.carnets.length === 0) return alert("Marca al menos un carnet.");
     const { error } = await supabase.from("candidatos").insert([formCand]);
     if (!error) { setEnviado(true); cargarCandidatos(); }
     else alert("Error: " + error.message);
@@ -235,4 +235,3 @@ export default function KaptarTalento() {
                 </div>
 
                 <div className="bg-white p-4 rounded-xl border flex flex-wrap gap-4 items-center">
-
