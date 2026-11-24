@@ -232,12 +232,15 @@ export default function KaptarTalento() {
                     <a href={STRIPE_LINKS.pack5} className="px-4 py-2 bg-amber-500 text-slate-950 rounded-lg text-sm font-bold flex items-center gap-1"><CreditCard className="w-4 h-4" /> 5 Contactos (35€)</a>
                     <a href={STRIPE_LINKS.pack15} className="px-4 py-2 bg-slate-800 rounded-lg text-sm font-semibold flex items-center gap-1"><CreditCard className="w-4 h-4 text-amber-400" /> 15 Contactos (90€)</a>
                   </div>
-                </div>
+        )}
       </main>
       <footer className="bg-slate-900 text-slate-400 text-xs py-6 px-6 text-center mt-12">
         <p>© 2026 KAPTAR TALENTO • Andalucia • Cumplimiento RGPD (UE) 2016/679</p>
       </footer>
     </div>
+  );
+}
+
   );
 }
 
